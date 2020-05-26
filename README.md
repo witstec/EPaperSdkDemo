@@ -210,7 +210,6 @@ Directions: Disconnect the device connection and need to reconnect after disconn
 
 ```
 EPaperSdk.connectMsgManager.disConnection ();
-
 ```
 
 ### Gets the device connection state
