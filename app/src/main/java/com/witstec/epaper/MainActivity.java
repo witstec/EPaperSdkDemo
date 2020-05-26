@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
+
     }
 
     private void setListener() {
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         connection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (mac.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please scan Bluetooth first", Toast.LENGTH_SHORT).show();
                 }
@@ -177,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         btn_connection_device_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (mac.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please scan Bluetooth first", Toast.LENGTH_SHORT).show();
                 }
@@ -295,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
     @Override
     protected void onDestroy() {
