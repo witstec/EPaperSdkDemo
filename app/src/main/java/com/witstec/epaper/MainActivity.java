@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //申请权限
+        //request for access
         AndPermission.with(this)
                 .runtime()
                 .permission(
@@ -62,23 +62,23 @@ public class MainActivity extends AppCompatActivity {
                 .onDenied(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> data) {
-                        //权限申请成功
+                        //Successful permission application
 
-                        //检查定位是否开启
+                        //Check if positioning is on
                         if (ScanUtil.isLocationEnabled(MainActivity.this)) {
-                            //获取蓝牙管理器
+                            //Get Bluetooth Manager
                             BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                            //检查蓝牙是否打开
+                            //Check if Bluetooth is turned on
                             if (!mBluetoothAdapter.isEnabled()) {
-                                // 若未打开，则请求打开蓝牙
+                                // If it is not turned on, request to turn on Bluetooth
                                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableBtIntent, 1);
                             } else {
-                                //蓝牙操作
+                                //Bluetooth operation
                                 setListener();
                             }
                         } else {
-                            //进入打开位置设置界面
+                            //Enter the open position setting interface
                             startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
                         }
                     }
@@ -100,13 +100,13 @@ public class MainActivity extends AppCompatActivity {
         scanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //开始扫描，
+                //Start scanning，
                 EPaperSdk.BleScanManager.startScanNow();
-                //获取扫描结果
+                //Start scanning
                 EPaperSdk.BleScanManager.getScanResult(new BleScanCallbackCompat() {
                     @Override
                     public void onScanResult(List<ScanData> deviceList) {
-                        //打印获取的设备信息
+                        //Print the obtained device information
                         for (ScanData scanData : deviceList) {
                             Log.i("scData", scanData.getAddress());
                         }
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                //停止扫描
+                //Stop scanning
 //                EPaperSdk.BleScanManager.stopCycleScan();
 
             }
@@ -124,27 +124,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mac.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "请先扫描蓝牙", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please scan Bluetooth first", Toast.LENGTH_SHORT).show();
                 }
-                //停止扫描
+                //Stop scanning
                 EPaperSdk.BleScanManager.stopCycleScan();
 
-                //单扫描  设备回复通知回调
+                //Single scan device response notification callback
                 EPaperSdk.bleConnectionManager.connection(mac, new BleConnectCallback() {
 
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("开始连接");
+                            LogHelper.i("Start to connect");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
-                            LogHelper.i("连接完成");
+                            LogHelper.i("Connection complete");
                         }
                     }
 
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("连接超时");
+                            LogHelper.i("Connection timed out");
                         }
                     }
 
@@ -177,40 +177,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mac.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "请先扫描蓝牙", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please scan Bluetooth first", Toast.LENGTH_SHORT).show();
                 }
 
-                //停止扫描
+                //Stop scanning
                 EPaperSdk.BleScanManager.stopCycleScan();
-                //扫描加获取设备信息  无设备通知回调
+                //// Scan and get device information No device notification callback
                 EPaperSdk.connectMsgManager.connection(mac, new BleConnectionDeviceInfoCallback() {
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("开始连接");
+                            LogHelper.i("Start to connect");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
-                            LogHelper.i("连接完成");
+                            LogHelper.i("Connection complete");
                         } else if (statusCode == StatusCode.CONNECTION_GET_MSG_START) {
-                            LogHelper.i("正在获取设备信息");
+                            LogHelper.i("Getting device information");
                         } else if (statusCode == StatusCode.CONNECTION_GET_MSG_SUCCESS) {
-                            LogHelper.i("获取设备信息完成");
+                            LogHelper.i("Complete device information");
                         }
                     }
 
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("连接超时");
+                            LogHelper.i("Connection timed out");
                         } else if (errorCode == ErrorCode.ERROR_CONNECTION_GET_DEVICE_MSG_TIMEOUT) {
-                            LogHelper.i("获取设备信息失败");
+                            LogHelper.i("Failed to obtain device information");
                         }
                     }
 
                     @Override
                     public void onConnectionSuccess(DeviceInfo msg) {
-                        LogHelper.i("设备电量" + msg.getPower());
-                        LogHelper.i("设备地址" + msg.getAddress());
-                        LogHelper.i("设备版本" + msg.getVersion());
+                        LogHelper.i("Device power" + msg.getPower());
+                        LogHelper.i("Device address" + msg.getAddress());
+                        LogHelper.i("Device version" + msg.getVersion());
                     }
                 });
 
@@ -228,34 +228,34 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("开始连接");
+                            LogHelper.i("Start connection");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
-                            LogHelper.i("连接完成");
+                            LogHelper.i("Connection completed");
                         } else if (statusCode == StatusCode.TEMPLATE_START_SEND) {
-                            LogHelper.i("开始发送图片");
+                            LogHelper.i("Start sending pictures");
                         } else if (statusCode == StatusCode.TEMPLATE_SEND_LOADING) {
-                            LogHelper.i("正在发送图片");
+                            LogHelper.i("Sending picture");
                         } else if (statusCode == StatusCode.TEMPLATE_SEND_SUCCESS) {
-                            LogHelper.i("发送图片成功");
+                            LogHelper.i("Successfully sent pictures");
                         } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE) {
-                            LogHelper.i("正在刷新图片，等待15秒");
+                            LogHelper.i("Refreshing picture, wait 15 seconds");
                         } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE_SUCCESS) {
-                            LogHelper.i("图片刷新完成");
+                            LogHelper.i("Image refresh completed");
                         }
                     }
 
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("连接超时");
+                            LogHelper.i("Connection Timed Out");
                         } else if (errorCode == ErrorCode.ERROR_TEMPLATE_SEND_TIMEOUT) {
-                            LogHelper.i("发送图片超时");
+                            LogHelper.i("Timeout for sending pictures");
                         }
                     }
 
                     @Override
                     public void onSuccess(String inputStrJson) {
-                        LogHelper.i("图片发送完成 json=" + inputStrJson);
+                        LogHelper.i("The picture is sent json=" + inputStrJson);
                     }
                 });
 
@@ -283,10 +283,10 @@ public class MainActivity extends AppCompatActivity {
                 //                EPaperSdk.destroy();
                 List<BleTemplateItemData> imageBleMsgList = EPaperSdk.templateManager.documentParsingList();
                 for (BleTemplateItemData imageBleMsg : imageBleMsgList) {
-                    LogHelper.i("数据=" + imageBleMsg.getId());
-                    LogHelper.i("数据=" + imageBleMsg.getContext());
-                    LogHelper.i("数据=" + imageBleMsg.getType());
-                    LogHelper.i("数据=" + imageBleMsg.getQrCodeContext());
+                    LogHelper.i("data=" + imageBleMsg.getId());
+                    LogHelper.i("data=" + imageBleMsg.getContext());
+                    LogHelper.i("data=" + imageBleMsg.getType());
+                    LogHelper.i("data=" + imageBleMsg.getQrCodeContext());
                 }
             }
         });
