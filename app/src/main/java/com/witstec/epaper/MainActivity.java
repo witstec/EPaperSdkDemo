@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 //Single scan device response notification callback
                 EPaperSdk.bleConnectionManager.connection(mac, new BleConnectCallback() {
 
+                    // Connection Status Callback, Update Connection Status
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                             LogHelper.i("Connection complete");
                         }
                     }
-
+                // Call when connection encounters exception, return exception error code
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
@@ -184,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
                 EPaperSdk.BleScanManager.stopCycleScan();
                 //// Scan and get device information No device notification callback
                 EPaperSdk.connectMsgManager.connection(mac, new BleConnectionDeviceInfoCallback() {
+
+                    // Connection Status Callback, Update Connection Status
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
@@ -197,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Call when connection encounters exception, return exception error code
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
@@ -206,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
+                    // The connection gets the device information successfully and returns the detailed device information
                     @Override
                     public void onConnectionSuccess(DeviceInfo msg) {
                         LogHelper.i("Device power" + msg.getPower());
