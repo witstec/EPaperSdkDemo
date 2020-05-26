@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/btn_scanning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 Scan function" />
+
+    <Button
+        android:id="@+id/btn_connection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 Only call connect Bluetooth module" />
+
+    <Button
+        android:id="@+id/btn_connection_device_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 Get the device information after calling the Bluetooth module" />
+
+    <Button
+        android:id="@+id/btn_send_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3 Send a picture after calling the connected Bluetooth module" />
+
+    <Button
+        android:id="@+id/btn_send_image_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Template generated picture" />
+
+    <Button
+        android:id="@+id/btn_destroy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get input box object collection" />
+
+    <ImageView
+        android:id="@+id/btn_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+</LinearLayout>
