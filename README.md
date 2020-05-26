@@ -240,7 +240,7 @@ Description: Because it is custom version SDK, so built-in template files, no ne
 <img src="http://api.witstec.com/Public/img/2020052601.jpg" width = 200 height = 400 />
 
 ### Json Format Description
-Json field description: red font is immutable value, green font is changeable value. and the values inside are sequential, data the first data corresponds to the QR code data, the second input corresponds to the first text input box,... from top to bottom, and so on.
+Json field description: and the values inside are sequential, data the first data corresponds to the QR code data, the second input corresponds to the first text input box,... from top to bottom, and so on.
 
 Json data examples
 
@@ -250,19 +250,19 @@ Json data examples
 "mac"："mac address ",
 "data"：[{
 "type"："qrcode",
-"content"：" the first input box for the value of the QR code"
+"content"：" Changeable  the first input box for the value of the QR code"
 },{
 "type"："text",
-"content"：" the value of the first text in the second input box"
+"content"："Changeable  the value of the first text in the second input box"
 },{
 "type"："text",
-"content"：" the value of the second text in the third input box"
+"content"："Changeable the value of the second text in the third input box"
 },{
 "type"："text",
-"content"：" the value of the third text in the fourth input box"
+"content"："Changeable the value of the third text in the fourth input box"
 },{
 "type"："text",
-"content"：" the value of the fourth text in the fifth input box"
+"content"："Changeable the value of the fourth text in the fifth input box"
 }]
 }
 ```
