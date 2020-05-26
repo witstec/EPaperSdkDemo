@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 .onGranted(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> data) {
-                        //权限申请失败
+                        //Permission application failed
                     }
                 })
                 .onDenied(new Action<List<String>>() {
