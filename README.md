@@ -180,6 +180,7 @@ CONNECTION_GET_MSG_SUCCESS	|Access to device information|
 
 
 State code	| Note
+-|-
 ERROR_BLE_CONNECTION_TIMEOUT	|Connection Device Timeout|
 ERROR_CONNECTION_GET_DEVICE_MSG_TIMEOUT	|Failed to obtain device information|
 
