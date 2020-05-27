@@ -180,6 +180,7 @@ CONNECTION_GET_MSG_SUCCESS	|Access to device information|
 
 
 State code	| Note
+-|-
 ERROR_BLE_CONNECTION_TIMEOUT	|Connection Device Timeout|
 ERROR_CONNECTION_GET_DEVICE_MSG_TIMEOUT	|Failed to obtain device information|
 
@@ -209,7 +210,6 @@ Directions: Disconnect the device connection and need to reconnect after disconn
 
 ```
 EPaperSdk.connectMsgManager.disConnection ();
-
 ```
 
 ### Gets the device connection state
@@ -271,7 +271,7 @@ Json parameters|	Type|	Note|
 -|-|-
 Id|	String	|Fixed to 001|
 Mac	|String	|Equipment mac address|
-type	|String|	Type of input box (" qrcode "," textqrcode ")|
+type	|String|	Type of input box (" qrcode "," text ")|
 context	|String|	Value of input box|
 
 
