@@ -271,7 +271,7 @@ Json parameters|	Type|	Note|
 -|-|-
 Id|	String	|Fixed to 001|
 Mac	|String	|Equipment mac address|
-type	|String|	Type of input box (" qrcode "," textqrcode ")|
+type	|String|	Type of input box (" qrcode "," text ")|
 context	|String|	Value of input box|
 
 
