@@ -15,7 +15,7 @@ dependencies {
 ```
 
 
-# 2. APPLICATION
+# 2. Permission Request
 ## Application for APP First Start Permission
 Add permission to declare to apply to AndroidManifest.xml file
 Attention: In addition to the declaration in the AndroidManifest.xm, 
@@ -234,7 +234,7 @@ EPaperSdk.bleConnectDeviceMsgManager.release();
 ```
 
 
-## Send Image to device interface calls
+## Send Image to device interface
 
 ```
 EPaperSdk.sendDeviceImage(image,SizeType);
