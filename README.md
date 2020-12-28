@@ -196,15 +196,6 @@ power	|Int|	Percentage of surplus equipment|
 deviceType|	 DeviceType|	Type of equipment size|
 
 
-#### DeviceType enumeration object description
-
-Parameters|	Note
--|-
-DEVICE_042	|4.2 inch equipment|
-DEVICE_075	|7.5 inch equipment|
-DEVICE_029	|2.9 inch equipment|
-
-
 ### Disconnect Device connection
 Directions: Disconnect the device connection and need to reconnect after disconnection.
 
@@ -236,11 +227,21 @@ EPaperSdk.bleConnectDeviceMsgManager.release();
 
 ## Send Image to device interface
 
+Description: connect the device to send the Image to the electronic price tag, after the Image is sent, the electronic price tag shows the Image content, please make sure the battery power is more than 30% before sending.
+
 ```
 EPaperSdk.sendDeviceImage(image,SizeType);
 ```
 
-Description: connect the device to send the Image to the electronic price tag, after the Image is sent, the electronic price tag shows the Image content, please make sure the battery power is more than 30% before sending.
+#### DeviceType enumeration object description
+
+Parameters|	Note
+-|-
+DEVICE_015	|1.5 inch equipment|
+DEVICE_021	|2.13 inch equipment|
+DEVICE_029	|2.9 inch equipment|
+DEVICE_042	|4.2 inch equipment|
+DEVICE_075	|7.5 inch equipment|
 
 Image sending status callback:
 
