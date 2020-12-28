@@ -1,4 +1,4 @@
-# 1. Introduction SDK
+# 1. Import SDK
 
 ## copy witstecbletagsdk.aar package to app/libs directory.
 app/build.gradle add the following code to the arr file to the project dependency
@@ -59,20 +59,20 @@ you can do a series of operations.
 
 
 # 3．SDK interface calls
-## Initialization SDK
+## init SDK
 Note: Add initialization SDK, to the Application onCreate method
 
 ```
 EPaperSdk.init (this);
 ```
-## SDK resource release
+## close SDK
 Call the following interface to log out of the application
 
 ```
 EPaperSdk.destroy();
 ```
 
-## Log Debugging Switch
+## Log Switch
  The SDK log switch can be turned on in debug mode to see more log information to help locate the problem quickly. it is recommended to turn off the log switch in release mode.
  
 ```
@@ -81,14 +81,14 @@ EPaperSdk.setDebugMode (true);
 ## Scan device interface calls
 Note: Open Bluetooth, search nearby device name "WITSTEC" Bluetooth device, and get MAC address and signal strength
 
-### Startup scan
+### Start scan
 Directions: Start Bluetooth scanning
 
 ```
 EPaperSdk.BleScanManager.startScanNow ();
 ```
 
-### Scanned results returned
+### Scan Result Callback
 Description: The search results are returned once in 2.5 seconds, the return results are filtered, only return the electronic signature called "WITSTEC" device,
 
 ```
@@ -114,7 +114,7 @@ name | String | Bluetooth Device Name |
 rssi | String | Equipment signal values |
 
 
-### Stop scanning
+### Stop scan
 Description: Stop searching for nearby devices, no longer return scan results,
 
 ```
@@ -124,7 +124,7 @@ EPaperSdk.BleScanManager.stopCycleScan ();
 ## Connection Device Interface Call
 Description: Connect the device, get the device details, disconnect, check if connected, reconnect.
 
-### Connection equipment
+### Connection Device
 Description: Enter the mac address to connect the device, and the device details will be returned after the connection device is successful.
 
 ```
@@ -205,44 +205,44 @@ DEVICE_075	|7.5 inch equipment|
 DEVICE_029	|2.9 inch equipment|
 
 
-### Disconnect
+### Disconnect Device connection
 Directions: Disconnect the device connection and need to reconnect after disconnection.
 
 ```
 EPaperSdk.connectMsgManager.disConnection ();
 ```
 
-### Gets the device connection state
+### Get device connection state
 Description: Return device connection status true/false.
 
 ```
 boolean isConnection =EPaperSdk.connectMsgManager.isConnection ();
 ```
 
-### Reconnect, no callback
-description: incoming mac address, reconnect to the device.
+//### Reconnect, no callback
+//description: incoming mac address, reconnect to the device.
+//
+//```
+//EPaperSdk.bleConnectDeviceMsgManager.connection (mac);
+//```
 
-```
-EPaperSdk.bleConnectDeviceMsgManager.connection (mac);
-```
-
-### Release Connection Resources
+### Reconnect device
 Description: Disconnect the device and release the resource
 
 ```
-EPaperSdk.bleConnectDeviceMsgManager.release ();
+EPaperSdk.bleConnectDeviceMsgManager.release();
 ```
 
 
 ## Send Image to device interface calls
 
 ```
-EPaperSdk.sendDeviceImage(image,SizeType)
+EPaperSdk.sendDeviceImage(image,SizeType);
 ```
 
 Description: connect the device to send the Image to the electronic price tag, after the Image is sent, the electronic price tag shows the Image content, please make sure the battery power is more than 30% before sending.
 
-Interface calls:
+Image sending status callback:
 
 ```
 // Incoming parameter description: mac= device MAC address, inputStrJson mac= input box content in the format of the Json string
