@@ -234,55 +234,19 @@ EPaperSdk.bleConnectDeviceMsgManager.release ();
 ```
 
 
-## Send template images to device interface calls
-Description: Because it is custom version SDK, so built-in template files, no need to import template files. For ease of understanding, the following is an example diagram of the display effect of a built-in template file, with five input boxes, for one QR code, four text. All you need to do is pass in the values in the input box as Json.
-
-<img src="http://api.witstec.com/Public/img/2020052601.jpg" width = 200 height = 400 />
-
-### Json Format Description
-Json field description: and the values inside are sequential, data the first data corresponds to the QR code data, the second input corresponds to the first text input box,... from top to bottom, and so on.
-
-Json data examples
+## Send Image to device interface calls
 
 ```
-{
-"id"："001",
-"mac"："mac address ",
-"data"：[{
-"type"："qrcode",
-"content"：" Changeable  the first input box for the value of the QR code"
-},{
-"type"："text",
-"content"："Changeable  the value of the first text in the second input box"
-},{
-"type"："text",
-"content"："Changeable the value of the second text in the third input box"
-},{
-"type"："text",
-"content"："Changeable the value of the third text in the fourth input box"
-},{
-"type"："text",
-"content"："Changeable the value of the fourth text in the fifth input box"
-}]
-}
+EPaperSdk.sendDeviceImage(image,SizeType)
 ```
 
-Json parameters|	Type|	Note|
--|-|-
-Id|	String	|Fixed to 001|
-Mac	|String	|Equipment mac address|
-type	|String|	Type of input box (" qrcode "," text ")|
-context	|String|	Value of input box|
-
-
-### Connection Device Send Template Picture
-Description: connect the device to send the template to the electronic price tag, after the template is sent, the electronic price tag shows the template content, please make sure the battery power is more than 30% before sending.
+Description: connect the device to send the Image to the electronic price tag, after the Image is sent, the electronic price tag shows the Image content, please make sure the battery power is more than 30% before sending.
 
 Interface calls:
 
 ```
 // Incoming parameter description: mac= device MAC address, inputStrJson mac= input box content in the format of the Json string
-EPaperSdk.templateManager.connection(mac, inputStrJson, new BleTemplateCallback() {
+EPaperSdk.IMAGEManager.connection(mac, inputStrJson, new BleImageCallback() {
 
                    // Connection Status Callback, Update Connection Status
                     @Override
@@ -291,16 +255,16 @@ EPaperSdk.templateManager.connection(mac, inputStrJson, new BleTemplateCallback(
                             LogHelper.i("Start connection");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
                             LogHelper.i("Connection completed");
-                        } else if (statusCode == StatusCode.TEMPLATE_START_SEND) {
+                        } else if (statusCode == StatusCode.IMAGE_START_SEND) {
                             LogHelper.i("Start sending pictures");
-                        } else if (statusCode == StatusCode.TEMPLATE_SEND_LOADING) {
+                        } else if (statusCode == StatusCode.IMAGE_SEND_LOADING) {
                             LogHelper.i("Sending picture");
-                        } else if (statusCode == StatusCode.TEMPLATE_SEND_SUCCESS) {
+                        } else if (statusCode == StatusCode.IMAGE_SEND_SUCCESS) {
                             LogHelper.i("Successfully sent pictures");
-                        } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE) {
+                        } else if (statusCode == StatusCode.IMAGE_REFRESH_DEVICE) {
                             LogHelper.i("Refreshing picture, wait 15 seconds");
-                        } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE_SUCCESS) {
-                            LogHelper.i("Image refresh completed");
+                        } else if (statusCode == StatusCode.IMAGE_REFRESH_DEVICE_SUCCESS) {
+                            LogHelper.i("IMAGE refresh completed");
                         }
                     }
                     
@@ -309,7 +273,7 @@ EPaperSdk.templateManager.connection(mac, inputStrJson, new BleTemplateCallback(
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
                             LogHelper.i("Connection Timed Out");
-                        } else if (errorCode == ErrorCode.ERROR_TEMPLATE_SEND_TIMEOUT) {
+                        } else if (errorCode == ErrorCode.ERROR_IMAGE_SEND_TIMEOUT) {
                             LogHelper.i("Timeout for sending pictures");
                         }
                     }
@@ -330,11 +294,11 @@ State code|	Note
 -|-
 CONNECTION_START	|Connection equipment|
 CONNECTION_SUCCESS|	Device connection successfully|
-TEMPLATE_START_SEND	|Start sending template images to the device|
-TEMPLATE_SEND_LOADING|	Is sending a template image to the device|
-TEMPLATE_SEND_SUCCESS|	Send template pictures to device successfully|
-TEMPLATE_REFRESH_DEVICE|	Refresh electronic price tag screen content|
-TEMPLATE_REFRESH_DEVICE_SUCCESS	|Electronic price tag|
+IMAGE_START_SEND	|Start sending Image  to the device|
+IMAGE_SEND_LOADING|	Is sending a Image  to the device|
+IMAGE_SEND_SUCCESS|	Send Image pictures to device successfully|
+IMAGE_REFRESH_DEVICE|	Refresh electronic price tag screen content|
+IMAGE_REFRESH_DEVICE_SUCCESS	|Electronic price tag|
 
 
 #### The state ErrorCode callback in the void onConnectionError (errorCode) method
@@ -342,38 +306,7 @@ TEMPLATE_REFRESH_DEVICE_SUCCESS	|Electronic price tag|
 State code|	Note
 -|-
 ERROR_BLE_CONNECTION_TIMEOUT|	Connection Device Timeout|
-ERROR_TEMPLATE_SEND_TIMEOUT	|Send template picture timeout|
-
-
-### Refresh template images
-Note: This interface is called when the value of the input box entering the sending template interface changes, and the function is to preview the template display effect
-
-```
-Bitmap bitmap=EPaperSdk.templateManager.refreshTemplate (inputStrJson);
-```
-
- Return Bitmap, use ImageView control display, the specific use of example code as follows.
- 
-```
-btn_imageView.setImageBitmap (EPaperSdk.bleConnectDeviceMsgManager.release5(inputStrJson));
-```
-
-### Gets the input box list
-Description: This interface is called when entering the sending template interface. The function is to parse the data in json format into a collection of objects, to generate input boxes, to determine the number of input boxes, to return the collection of value objects of input boxes, and to generate an input box for one object. .
-
-```
-List<BleTemplateItemData>imageBleMsgList =EPaperSdk.bleConnectDeviceMsgManager.release4();
-```
-
-#### BleTemplateItemData Object Value Description
-
-Request parameters	|Type	|Note
--|-|-
-id|	String|	Template Id|
-type|	String|	Type of input|
-context|	String	|Value of text type|
-qrCodeContext|	String	|Value of two-dimensional code type|
-
+ERROR_IMAGE_SEND_TIMEOUT	|Send Image picture timeout|
 
 ### Status Code and Error Code
 #### StatusCode status tables
@@ -384,11 +317,11 @@ CONNECTION_START	|Connection equipment|
 CONNECTION_SUCCESS|	Connection device successfully|
 CONNECTION_GET_MSG_START	|Equipment information is being obtained|
 CONNECTION_GET_MSG_SUCCESS	|Access to device information|
-TEMPLATE_START_SEND|	Start sending templates to electronic price tag devices|
-TEMPLATE_SEND_LOADING	|A template is being sent to an electronic price tag device|
-TEMPLATE_SEND_SUCCESS|	Send template to electronic price tag device successfully|
-TEMPLATE_REFRESH_DEVICE|	Refresh the electronic tag template picture|
-TEMPLATE_REFRESH_DEVICE_SUCCESS|	Refresh the electronic tag template picture|
+IMAGE_START_SEND|	Start sending Image to electronic price tag devices|
+IMAGE_SEND_LOADING	|A Image is being sent to an electronic price tag device|
+IMAGE_SEND_SUCCESS|	Send Image to electronic price tag device successfully|
+IMAGE_REFRESH_DEVICE|	Refresh the electronic tag Image picture|
+IMAGE_REFRESH_DEVICE_SUCCESS|	Refresh the electronic tag Image picture|
 
 
 ### ErrorCode Error Error Code Matching Table
@@ -400,7 +333,7 @@ ERROR_PURVIEW_NO_OPEN_BLE|	No Bluetooth switch on|
 ERROR_PURVIEW_NO_OPEN_LOCATION|	No positioning switch on|
  ERROR_BLE_CONNECTION_TIMEOUT|	Connection Device Timeout|
 ERROR_CONNECTION_GET_DEVICE_MSG_TIMEOUT|	Gets device information timeout|
-ERROR_TEMPLATE_SEND_TIMEOUT	|Send template images to electronic price tag device timeout|
+ERROR_IMAGE_SEND_TIMEOUT	|Send  Image to electronic price tag device timeout|
 
 
 
