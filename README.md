@@ -228,61 +228,82 @@ EPaperSdk.bleConnectDeviceMsgManager.release();
 ## Send Image to device interface
 
 Description: connect the device to send the Image to the electronic price tag, after the Image is sent, the electronic price tag shows the Image content, please make sure the battery power is more than 30% before sending.
-
+Please transfer images that match the resolution size, for resolution requirements please see.
 ```
-EPaperSdk.sendDeviceImage(image,SizeType);
+   EPaperSdk.templateManager.sendImageView(bitmap, DeviceSize.DEVICE_042);
 ```
 
 #### DeviceType enumeration object description
 
 Parameters|	Note
 -|-
-DEVICE_015	|1.5 inch equipment|
-DEVICE_021	|2.13 inch equipment|
-DEVICE_029	|2.9 inch equipment|
-DEVICE_042	|4.2 inch equipment|
-DEVICE_075	|7.5 inch equipment|
+DEVICE_015	|1.5(200*200) inch equipment|
+DEVICE_021	|2.13(250*128) inch equipment|
+DEVICE_029	|2.9(296*128) inch equipment|
+DEVICE_042	|4.2(400*300) inch equipment|
+DEVICE_075	|7.5(800*528) inch equipment|
 
 Image sending status callback:
 
 ```
-// Incoming parameter description: mac= device MAC address, inputStrJson mac= input box content in the format of the Json string
-EPaperSdk.IMAGEManager.connection(mac, inputStrJson, new BleImageCallback() {
-
-                   // Connection Status Callback, Update Connection Status
+              // Make the image black, white and red
+                Bitmap bitmap = EPaperSdk.templateManager.renderingImage(mBitmap, RenderingGear.RENDERING_48);
+                // Tell the SDK the image and size to send
+                EPaperSdk.templateManager.sendImageView(bitmap, DeviceSize.DEVICE_042);
+                //start sending and return the sending status
+                EPaperSdk.templateManager.connection(mac, new BleTemplateCallback() {
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("Start connection");
+                            LogHelper.i("Starting connection");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
                             LogHelper.i("Connection completed");
-                        } else if (statusCode == StatusCode.IMAGE_START_SEND) {
-                            LogHelper.i("Start sending pictures");
-                        } else if (statusCode == StatusCode.IMAGE_SEND_LOADING) {
-                            LogHelper.i("Sending picture");
-                        } else if (statusCode == StatusCode.IMAGE_SEND_SUCCESS) {
-                            LogHelper.i("Successfully sent pictures");
-                        } else if (statusCode == StatusCode.IMAGE_REFRESH_DEVICE) {
-                            LogHelper.i("Refreshing picture, wait 15 seconds");
-                        } else if (statusCode == StatusCode.IMAGE_REFRESH_DEVICE_SUCCESS) {
-                            LogHelper.i("IMAGE refresh completed");
+                        } else if (statusCode == StatusCode.TEMPLATE_START_SEND) {
+                            LogHelper.i("Starting to send image");
+                        } else if (statusCode == StatusCode.TEMPLATE_SEND_LOADING) {
+                            LogHelper.i("Sending image");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Sending image", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else if (statusCode == StatusCode.TEMPLATE_SEND_SUCCESS) {
+                            LogHelper.i("Sending image successfully");
+                        } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE) {
+                            LogHelper.i("Refreshing image, waiting 15 seconds");
+                        } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE_SUCCESS) {
+                            LogHelper.i("Image refresh complete");
                         }
                     }
-                    
-                    // Call when connection encounters exception, return exception error code
+
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("Connection Timed Out");
-                        } else if (errorCode == ErrorCode.ERROR_IMAGE_SEND_TIMEOUT) {
-                            LogHelper.i("Timeout for sending pictures");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Connection timeout", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else if (errorCode == ErrorCode.ERROR_TEMPLATE_SEND_TIMEOUT) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Send image timeout", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
-                    
-                   // After sending and refreshing the electronic price tag is called, you can save the inputStrJson data to the local,                      //facilitate the next automatic update input box content.
+
                     @Override
-                    public void onSuccess(String inputStrJson) {
-                        LogHelper.i("The picture is sent json=" + inputStrJson);
+                    public void onSuccess() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Send successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
 ```
