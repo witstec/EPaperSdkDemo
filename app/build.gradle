@@ -36,5 +36,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //permission
     implementation 'com.yanzhenjie.permission:support:2.0.1'
-    implementation(name: 'witstecbletagsdk_v1.0.1', ext: 'aar')
+    implementation(name: 'witstecbletagsdk_v2.0.1', ext: 'aar')
 }

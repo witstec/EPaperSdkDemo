@@ -1,49 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
-
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_scanning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1 Scan function" />
+        android:text="@string/_1_scan_function" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_connection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2 Only call connect Bluetooth module" />
+        android:text="@string/_2_only_call_connect_bluetooth_module" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_connection_device_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2 Get the device information after calling the Bluetooth module" />
+        android:text="@string/_2_get_the_device_information_after_calling_the_bluetooth_module" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_send_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="3 Send a picture after calling the connected Bluetooth module" />
+        android:text="@string/_3_send_a_picture_after_calling_the_connected_bluetooth_module" />
 
-    <Button
-        android:id="@+id/btn_send_image_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Template generated picture" />
-
-    <Button
-        android:id="@+id/btn_destroy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get input box object collection" />
-
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btn_imageView"
         android:layout_width="match_parent"
         android:layout_height="300dp" />

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EPaperSdkDemo</string>
+    <string name="_1_scan_function">Scan for device list</string>
+    <string name="_2_only_call_connect_bluetooth_module">Just simply connect</string>
+    <string name="_2_get_the_device_information_after_calling_the_bluetooth_module">Connect the device and get the device information</string>
+    <string name="_3_send_a_picture_after_calling_the_connected_bluetooth_module">Connecting devices and sending pictures</string>
 </resources>
