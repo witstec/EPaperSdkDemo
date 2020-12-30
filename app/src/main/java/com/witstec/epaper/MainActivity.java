@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //申请权限
+        //Apply for permission
         AndPermission.with(this)
                 .runtime()
                 .permission(
@@ -62,28 +62,27 @@ public class MainActivity extends AppCompatActivity {
                 .onGranted(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> data) {
-                        //权限申请失败
+                        // permission request failed
                     }
                 })
                 .onDenied(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> data) {
-                        //权限申请成功
-
-                        //检查定位是否开启
+                        //Permission application is successful
+                        //check if location is enabled
                         if (ScanUtil.isLocationEnabled(MainActivity.this)) {
-                            //获取蓝牙管理器
+                            //get the Bluetooth manager
                             BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                            //检查蓝牙是否打开
+                            //check if Bluetooth is on or not
                             if (!mBluetoothAdapter.isEnabled()) {
-                                // 若未打开，则请求打开蓝牙
+                                // If not, request to turn on Bluetooth
                                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableBtIntent, 1);
                             } else {
-                                //蓝牙操作
+                                // Bluetooth operation
                             }
                         } else {
-                            //进入打开位置设置界面
+                            //go to open the location settings interface
                             startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
                         }
                     }
@@ -105,18 +104,18 @@ public class MainActivity extends AppCompatActivity {
         btn_imageView.setImageBitmap(mBitmap);
 
         /**
-         * 获取蓝牙设备列表
+         * Get the list of Bluetooth devices
          */
         scanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //开始扫描，
+                //Start scanning
                 EPaperSdk.BleScanManager.startScanNow();
-                //获取扫描结果
+                //Get Scan Results
                 EPaperSdk.BleScanManager.getScanResult(new BleScanCallbackCompat() {
                     @Override
                     public void onScanResult(List<ScanData> deviceList) {
-                        //打印获取的设备信息
+                        //Print the acquired device information
                         for (ScanData scanData : deviceList) {
                             Log.i("scData", scanData.getAddress());
                         }
@@ -124,37 +123,37 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                //停止扫描
-                EPaperSdk.BleScanManager.startScanNow();
+                //Stop scanning
+//                EPaperSdk.BleScanManager.stopCycleScan();
             }
         });
 
-        //单纯的连接设备
+        //Simply connected devices
         connection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mac.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "请先扫描蓝牙", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please scan the Bluetooth first", Toast.LENGTH_SHORT).show();
                 }
-                //停止扫描
-                EPaperSdk.BleScanManager.stopCycleScan();
+                //Stop scanning
+//                EPaperSdk.BleScanManager.stopCycleScan();
 
-                //单扫描  设备回复通知回调
+                //Single Scan Device Reply Notification Callback
                 EPaperSdk.bleConnectionManager.connection(mac, new BleConnectCallback() {
 
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("开始连接");
+                            LogHelper.i("Start Connection");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
-                            LogHelper.i("连接完成");
+                            LogHelper.i("Connection completed");
                         }
                     }
 
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("连接超时");
+                            LogHelper.i("Connection timeout");
                         }
                     }
 
@@ -176,44 +175,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //连接设备并且获取设备信息
+        //Connect the device and get the device information
         btn_connection_device_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mac.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "请先扫描蓝牙", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please scan the Bluetooth first", Toast.LENGTH_SHORT).show();
                 }
-                //停止扫描
-                EPaperSdk.BleScanManager.stopCycleScan();
-                //扫描加获取设备信息  无设备通知回调
+                //Stop scanning
+//                EPaperSdk.BleScanManager.stopCycleScan();
+           //scan plus get device information No device notification callback
                 EPaperSdk.connectMsgManager.connection(mac, new BleConnectionDeviceInfoCallback() {
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("开始连接");
+                            LogHelper.i("Starting connection");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
-                            LogHelper.i("连接完成");
+                            LogHelper.i("Connection completed");
                         } else if (statusCode == StatusCode.CONNECTION_GET_MSG_START) {
-                            LogHelper.i("正在获取设备信息");
+                            LogHelper.i("Getting device information");
                         } else if (statusCode == StatusCode.CONNECTION_GET_MSG_SUCCESS) {
-                            LogHelper.i("获取设备信息完成");
+                            LogHelper.i("Fetching device information completed");
                         }
                     }
 
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("连接超时");
+                            LogHelper.i("Connection timeout");
                         } else if (errorCode == ErrorCode.ERROR_CONNECTION_GET_DEVICE_MSG_TIMEOUT) {
-                            LogHelper.i("获取设备信息失败");
+                            LogHelper.i("Failed to obtain device information");
                         }
                     }
 
                     @Override
                     public void onConnectionSuccess(DeviceInfo msg) {
-                        LogHelper.i("设备电量" + msg.getPower());
-                        LogHelper.i("设备地址" + msg.getAddress());
-                        LogHelper.i("设备版本" + msg.getVersion());
+                        LogHelper.i("Device power" + msg.getPower());
+                        LogHelper.i("Device address" + msg.getAddress());
+                        LogHelper.i("Device Version" + msg.getVersion());
                     }
                 });
 
@@ -223,57 +222,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //连接设备，并且发送图片到设备
+        // connect to the device and send the image to the device
         btn_send_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //让图片变成黑白红三种颜色
+                // Make the image black, white and red
                 Bitmap bitmap = EPaperSdk.templateManager.renderingImage(mBitmap, RenderingGear.RENDERING_48);
-                //告诉SDK要发送的图片和尺寸
+                // Tell the SDK the image and size to send
                 EPaperSdk.templateManager.sendImageView(bitmap, DeviceSize.DEVICE_042);
-                //开始发送，并且返回发送状态
+                //start sending and return the sending status
                 EPaperSdk.templateManager.connection(mac, new BleTemplateCallback() {
                     @Override
                     public void onConnectionChange(StatusCode statusCode) {
                         if (statusCode == StatusCode.CONNECTION_START) {
-                            LogHelper.i("开始连接");
+                            LogHelper.i("Starting connection");
                         } else if (statusCode == StatusCode.CONNECTION_SUCCESS) {
-                            LogHelper.i("连接完成");
+                            LogHelper.i("Connection completed");
                         } else if (statusCode == StatusCode.TEMPLATE_START_SEND) {
-                            LogHelper.i("开始发送图片");
+                            LogHelper.i("Starting to send image");
                         } else if (statusCode == StatusCode.TEMPLATE_SEND_LOADING) {
-                            LogHelper.i("正在发送图片");
+                            LogHelper.i("Sending image");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(MainActivity.this, "正在发送图片", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "Sending image", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else if (statusCode == StatusCode.TEMPLATE_SEND_SUCCESS) {
-                            LogHelper.i("发送图片成功");
+                            LogHelper.i("Sending image successfully");
                         } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE) {
-                            LogHelper.i("正在刷新图片，等待15秒");
+                            LogHelper.i("Refreshing image, waiting 15 seconds");
                         } else if (statusCode == StatusCode.TEMPLATE_REFRESH_DEVICE_SUCCESS) {
-                            LogHelper.i("图片刷新完成");
+                            LogHelper.i("Image refresh complete");
                         }
                     }
 
                     @Override
                     public void onConnectionError(ErrorCode errorCode) {
                         if (errorCode == ErrorCode.ERROR_BLE_CONNECTION_TIMEOUT) {
-                            LogHelper.i("连接超时");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(MainActivity.this, "连接超时", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "Connection timeout", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else if (errorCode == ErrorCode.ERROR_TEMPLATE_SEND_TIMEOUT) {
-                            LogHelper.i("发送图片超时");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(MainActivity.this, "发送图片超时", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "Send image timeout", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -284,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(MainActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Send successfully", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
