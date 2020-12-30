@@ -10,7 +10,7 @@ repositories {
     }
 }
 dependencies {
-    implementation(name: 'witstecbletagsdk_v1.0.0', ext: 'aar')
+    implementation(name: 'witstecbletagsdk_v2.0.1', ext: 'aar')
 }
 ```
 
