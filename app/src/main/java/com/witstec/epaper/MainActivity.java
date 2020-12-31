@@ -40,8 +40,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    //    String mac = "12:9A:04:01:4D:08";
-    String mac = "12:9A:04:01:43:08";
+        String mac = "12:9A:04:01:4D:08";
+//    String mac = "12:9A:04:01:43:08";
     Bitmap mBitmap;
 
     @Override
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_send_image = findViewById(R.id.btn_send_image);
         final ImageView btn_imageView = findViewById(R.id.btn_imageView);
         try {
-            mBitmap = BitmapFactory.decodeStream(getResources().getAssets().open("test3.jpg"));
+            mBitmap = BitmapFactory.decodeStream(getResources().getAssets().open("test2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 // Make the image black, white and red
                 Bitmap bitmap = EPaperSdk.templateManager.renderingImage(mBitmap, RenderingGear.RENDERING_48);
                 // Tell the SDK the image and size to send
-                EPaperSdk.templateManager.sendImageView(bitmap, DeviceSize.DEVICE_042);
+                EPaperSdk.templateManager.sendImageView(bitmap, DeviceSize.DEVICE_029);
                 //start sending and return the sending status
                 EPaperSdk.templateManager.connection(mac, new BleTemplateCallback() {
                     @Override
